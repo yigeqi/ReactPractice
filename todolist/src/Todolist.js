@@ -1,6 +1,6 @@
 import React,{Component,Fragment} from 'react';
-import './Todolist.css';
 import TodoItem from './TodoItem'
+import './Todolist.css';
 
 class Todolist extends Component {
   constructor(props){
