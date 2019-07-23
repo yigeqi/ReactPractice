@@ -25,7 +25,7 @@ class Todolist extends Component {
           />
           <button onClick={this.addItem}>add item</button>
         </div>
-        <div>
+        <div ref={itemsWrapper=>this.itemsWrapper=itemsWrapper}>
           {this.getItems()}
         </div>
       </Fragment>
@@ -50,7 +50,7 @@ class Todolist extends Component {
     this.setState(prevState=>({
       addValue:'',
       list:[...prevState.list,prevState.addValue]
-    }))
+    }),()=>{console.log(this.itemsWrapper.querySelectorAll('div').length);} );
   }
   removeItem(index){
     this.setState(prevState=>{

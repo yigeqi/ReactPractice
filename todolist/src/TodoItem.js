@@ -6,6 +6,9 @@ class TodoItem extends Component{
 		super(props);
 		this.delItem=this.delItem.bind(this)
 	}
+	shouldComponentUpdate(nextProps, nextState){
+		return nextProps.item!==this.props.item?true: false;
+	}
 	render(){
 		return (
 			<div>{this.props.item}<button onClick={this.delItem}>remove</button></div>
