@@ -1,5 +1,6 @@
 import React,{Component,Fragment} from 'react';
-import TodoItem from './TodoItem'
+import TodoItem from './TodoItem';
+import axios from 'axios'
 import './Todolist.css';
 
 class Todolist extends Component {
@@ -12,6 +13,12 @@ class Todolist extends Component {
     this.handleInput=this.handleInput.bind(this)
     this.addItem=this.addItem.bind(this)
     this.removeItem=this.removeItem.bind(this)
+  }
+  componentDidMount(){
+    //此处需要用charles设置mock接口数据
+    axios.get('/api/todolist').then(resp=>{
+      this.setState(()=>({list:resp.data}))
+    }).catch(e=>console.log(e))
   }
   render(){
     return (
@@ -30,7 +37,7 @@ class Todolist extends Component {
         </div>
       </Fragment>
     )
-  }
+  }  
   getItems(){
     return this.state.list.map((item,index)=>{
        return (
