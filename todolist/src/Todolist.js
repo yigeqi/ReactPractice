@@ -2,19 +2,19 @@ import React,{Component,Fragment} from 'react';
 import TodoItem from './TodoItem';
 // import axios from 'axios'
 import {Input, Button, List} from 'antd'
+import store from './store'
 import './Todolist.css';
 import 'antd/dist/antd.css'
 
 class Todolist extends Component {
   constructor(props){
     super(props);
-    this.state={
-      addValue:'',
-      list:[]
-    }
+    this.state=store.getState();
     this.handleInput=this.handleInput.bind(this)
     this.addItem=this.addItem.bind(this)
     this.removeItem=this.removeItem.bind(this)
+    this.handleStoreChange=this.handleStoreChange.bind(this)
+    store.subscribe(this.handleStoreChange)
   }
   componentDidMount(){
     //此处需要用charles设置mock接口数据
@@ -30,11 +30,12 @@ class Todolist extends Component {
           <Input style={{width:'300px',margin:'30px'}}
             placeholder='add new todolist here'
             id='textInput' 
-            value={this.state.addValue} 
+            value={this.state.inputVal} 
             onChange={this.handleInput}
           />
           <Button type='primary' onClick={this.addItem}>add item</Button>
         </div>
+        {/* <div ref={itemsWrapper=>this.itemsWrapper=itemsWrapper}>*/}
         <div ref={itemsWrapper=>this.itemsWrapper=itemsWrapper}>
           <List bordered
             dataSource={this.state.list}
@@ -54,21 +55,38 @@ class Todolist extends Component {
     )
   }
   handleInput(e){
-    const addValue = e.target.value;
-    this.setState(()=>({addValue}))
+    const inputVal = e.target.value;
+    //this.setState(()=>({inputVal}))
+    const action = {
+      type: 'change_input_val',
+      value: inputVal
+    };
+    store.dispatch(action);
   }
   addItem(){
-    this.setState(prevState=>({
-      addValue:'',
-      list:[...prevState.list,prevState.addValue]
-    }),()=>{console.log(this.itemsWrapper.querySelectorAll('div').length);} );
+    // this.setState(prevState=>({
+    //   inputVal:'',
+    //   list:[...prevState.list,prevState.inputVal]
+    // }),()=>{console.log(this.itemsWrapper.querySelectorAll('div').length);} );
+    const action = {
+      type: 'add_todolist'
+    };
+    store.dispatch(action)
+  }
+  handleStoreChange(){
+    this.setState(store.getState())
   }
   removeItem(index){
-    this.setState(prevState=>{
-      const list=[...prevState.list]
-      list.splice(index,1);
-      return {list}
-    })
+    // this.setState(prevState=>{
+    //   const list=[...prevState.list]
+    //   list.splice(index,1);
+    //   return {list}
+    // })
+    const action = {
+      type: 'remove_todolist',
+      value:index
+    }
+    store.dispatch(action)
   }
 }
 
