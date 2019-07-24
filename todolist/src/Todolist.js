@@ -1,48 +1,57 @@
-import React,{Component} from 'react';
+import React, {
+  Component
+} from 'react';
 import TodolistUI from './TodolistUI'
-import {connect} from 'react-redux'
-import {getTodolistAction, getInputChangeAction,getAddTodolistAction,getRemoveTodolistAction} from './store/actionCreators'
+import {
+  connect
+} from 'react-redux'
+import {
+  getTodolistAction,
+  getInputChangeAction,
+  getAddTodolistAction,
+  getRemoveTodolistAction
+} from './store/actionCreators'
 import store from './store'
 
 import './Todolist.css';
 import 'antd/dist/antd.css'
 
 class Todolist extends Component {
-  constructor(props){
+  constructor(props) {
     super(props);
-    this.state=store.getState();
+    this.state = store.getState();
   }
-  componentDidMount(){
+  componentDidMount() {
     store.dispatch(getTodolistAction())
   }
-  render(){
+  render() {
     return (
       <TodolistUI
-      inputVal={this.props.inputVal}
-      list={this.props.list}
-      handleInput={this.props.handleInput}
-      addItem={this.props.addItem}
-      removeItem={this.props.removeItem}
+        inputVal={this.props.inputVal}
+        list={this.props.list}
+        handleInput={this.props.handleInput}
+        addItem={this.props.addItem}
+        removeItem={this.props.removeItem}
       />
     )
   }
 }
 
-const mapStateToProps=(state)=>({
-  inputVal:state.inputVal,
-  list:state.list
+const mapStateToProps = (state) => ({
+  inputVal: state.inputVal,
+  list: state.list
 })
-const mapDispatchToProps=(dispatch)=>({
-  handleInput(e){
+const mapDispatchToProps = (dispatch) => ({
+  handleInput(e) {
     const inputVal = e.target.value;
     dispatch(getInputChangeAction(inputVal));
   },
-  addItem(){
+  addItem() {
     dispatch(getAddTodolistAction())
   },
-  removeItem(index){
+  removeItem(index) {
     dispatch(getRemoveTodolistAction(index))
   }
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(Todolist);
+export default connect(mapStateToProps, mapDispatchToProps)(Todolist);
