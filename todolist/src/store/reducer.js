@@ -1,7 +1,7 @@
 import {CHANGE_INPUT_VALUE,ADD_TODOLIST,REMOVE_TODOLIST} from './actionTypes'
 
 const defaultState={
-	inputVal:'',
+	inputVal:'3',
 	list:[1,2]
 }
 
