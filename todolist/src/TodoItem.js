@@ -1,5 +1,6 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
+import {Button} from 'antd'
 
 class TodoItem extends Component{
 	constructor(props){
@@ -11,7 +12,7 @@ class TodoItem extends Component{
 	}
 	render(){
 		return (
-			<div>{this.props.item}<button onClick={this.delItem}>remove</button></div>
+			<div>{this.props.item}<Button onClick={this.delItem}>remove</Button></div>
 		)
 	}
 	delItem(){

@@ -1,7 +1,9 @@
 import React,{Component,Fragment} from 'react';
 import TodoItem from './TodoItem';
-import axios from 'axios'
+// import axios from 'axios'
+import {Input, Button, List} from 'antd'
 import './Todolist.css';
+import 'antd/dist/antd.css'
 
 class Todolist extends Component {
   constructor(props){
@@ -16,38 +18,40 @@ class Todolist extends Component {
   }
   componentDidMount(){
     //此处需要用charles设置mock接口数据
-    axios.get('/api/todolist').then(resp=>{
-      this.setState(()=>({list:resp.data}))
-    }).catch(e=>console.log(e))
+    // axios.get('/api/todolist').then(resp=>{
+    //   this.setState(()=>({list:resp.data}))
+    // }).catch(e=>console.log(e))
   }
   render(){
     return (
       <Fragment>
         <div>
           <label htmlFor='textInput'>输入todolist</label>
-          <input 
+          <Input style={{width:'300px',margin:'30px'}}
+            placeholder='add new todolist here'
             id='textInput' 
             value={this.state.addValue} 
             onChange={this.handleInput}
           />
-          <button onClick={this.addItem}>add item</button>
+          <Button type='primary' onClick={this.addItem}>add item</Button>
         </div>
         <div ref={itemsWrapper=>this.itemsWrapper=itemsWrapper}>
-          {this.getItems()}
+          <List bordered
+            dataSource={this.state.list}
+            renderItem={(item,index)=>(
+              <List.Item>
+                <TodoItem 
+                  key={index} 
+                  item={item} 
+                  index={index} 
+                  removeItem={this.removeItem}
+                />
+              </List.Item>
+            )}
+          />
         </div>
       </Fragment>
     )
-  }  
-  getItems(){
-    return this.state.list.map((item,index)=>{
-       return (
-        <TodoItem 
-          key={index} 
-          item={item} 
-          index={index} 
-          removeItem={this.removeItem}
-        />)
-    })
   }
   handleInput(e){
     const addValue = e.target.value;
