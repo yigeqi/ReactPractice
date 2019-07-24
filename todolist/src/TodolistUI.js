@@ -26,7 +26,7 @@ const TodolistUI = (props)=>(
               key={index} 
               item={item} 
               index={index} 
-              removeItem={(index)=>{props.removeItem(index)}}
+              removeItem={()=>{props.removeItem(index)}}
             />
           </List.Item>
         )}

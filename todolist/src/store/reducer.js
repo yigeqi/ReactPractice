@@ -1,4 +1,4 @@
-import {CHANGE_INPUT_VALUE,ADD_TODOLIST,REMOVE_TODOLIST} from './actionTypes'
+import {INIT_TODOLIST, CHANGE_INPUT_VALUE,ADD_TODOLIST,REMOVE_TODOLIST} from './actionTypes'
 
 const defaultState={
 	inputVal:'3',
@@ -20,6 +20,11 @@ export default ((state=defaultState,action)=>{
 	if(action.type===REMOVE_TODOLIST){
 		const newState=JSON.parse(JSON.stringify(state));
 		newState.list.splice(action.value,1);
+		return newState;
+	}
+	if(action.type===INIT_TODOLIST){
+		const newState=JSON.parse(JSON.stringify(state));
+		newState.list=action.list;
 		return newState;
 	}
 	return state;

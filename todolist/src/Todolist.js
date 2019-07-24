@@ -1,7 +1,8 @@
 import React,{Component} from 'react';
 import TodolistUI from './TodolistUI'
 import store from './store'
-import {getInputChangeAction,getAddTodolistAction,getRemoveTodolistAction} from './store/actionCreators'
+import axios from 'axios'
+import {initTodolistAction, getInputChangeAction,getAddTodolistAction,getRemoveTodolistAction} from './store/actionCreators'
 
 import './Todolist.css';
 import 'antd/dist/antd.css'
@@ -17,6 +18,9 @@ class Todolist extends Component {
     store.subscribe(this.handleStoreChange)
   }
   componentDidMount(){
+    axios.get('/api/todolist.json').then(resp=>{
+      store.dispatch(initTodolistAction(resp.data))
+    }).catch(e=>console.log(e))          
   }
   render(){
     return (
