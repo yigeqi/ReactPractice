@@ -3,6 +3,8 @@ import TodoItem from './TodoItem';
 // import axios from 'axios'
 import {Input, Button, List} from 'antd'
 import store from './store'
+import {getInputChangeAction,getAddTodolistAction,getRemoveTodolistAction} from './store/actionCreators'
+
 import './Todolist.css';
 import 'antd/dist/antd.css'
 
@@ -56,37 +58,16 @@ class Todolist extends Component {
   }
   handleInput(e){
     const inputVal = e.target.value;
-    //this.setState(()=>({inputVal}))
-    const action = {
-      type: 'change_input_val',
-      value: inputVal
-    };
-    store.dispatch(action);
+    store.dispatch(getInputChangeAction(inputVal));
   }
   addItem(){
-    // this.setState(prevState=>({
-    //   inputVal:'',
-    //   list:[...prevState.list,prevState.inputVal]
-    // }),()=>{console.log(this.itemsWrapper.querySelectorAll('div').length);} );
-    const action = {
-      type: 'add_todolist'
-    };
-    store.dispatch(action)
+    store.dispatch(getAddTodolistAction())
   }
   handleStoreChange(){
     this.setState(store.getState())
   }
   removeItem(index){
-    // this.setState(prevState=>{
-    //   const list=[...prevState.list]
-    //   list.splice(index,1);
-    //   return {list}
-    // })
-    const action = {
-      type: 'remove_todolist',
-      value:index
-    }
-    store.dispatch(action)
+    store.dispatch(getRemoveTodolistAction(index))
   }
 }
 
