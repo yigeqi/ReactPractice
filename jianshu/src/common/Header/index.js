@@ -1,6 +1,5 @@
-import React, {
-	Component
-} from 'react';
+import React from 'react';
+import {connect} from 'react-redux';
 import {
 	CSSTransition
 } from 'react-transition-group'
@@ -15,52 +14,43 @@ import {
 	SearchInput
 } from './style';
 
-class Header extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			focus: false
-		};
-		this.searchInputFocus = this.searchInputFocus.bind(this);
-		this.searchInputBlur = this.searchInputBlur.bind(this);
-	}
-	render() {
-		return (
-			<HeaderWrapper>
-				<Logo></Logo>
-				<Nav>
-					<NavItem className='active left'>首页</NavItem>
-					<NavItem className='downloadApp left'>下载App</NavItem>
-		  		<NavItem className='right'>登录</NavItem>
-		  		<NavItem className='right'><i className='iconfont'>&#xe607;</i></NavItem>
-		  		<SearchWrapper>
-		    		<CSSTransition in={this.state.focus} timeout={300} classNames='slide'>
-							<SearchInput 
-				  	    className={this.state.focus?'focus':''}
-				  	    onFocus={this.searchInputFocus}
-				  	    onBlur={this.searchInputBlur}>
-							</SearchInput>
-		  			</CSSTransition>
-		  	  	<i className={this.state.focus?'focus iconfont':'iconfont'} >&#xe60a;</i>
-		  		</SearchWrapper>
-		  	</Nav>
-		  	<Side>
-			  	<Button>注册</Button>
-			  	<Button className='write'>写文章</Button>
-			  </Side>
-			</HeaderWrapper>
-		);
-	}
-	searchInputFocus() {
-		this.setState({
-			focus: true
-		});
-	}
-	searchInputBlur() {
-		this.setState({
-			focus: false
-		});
-	}
+const Header = (props) => {
+	return (
+		<HeaderWrapper>
+			<Logo></Logo>
+			<Nav>
+				<NavItem className='active left'>首页</NavItem>
+				<NavItem className='downloadApp left'>下载App</NavItem>
+	  		<NavItem className='right'>登录</NavItem>
+	  		<NavItem className='right'><i className='iconfont'>&#xe607;</i></NavItem>
+	  		<SearchWrapper>
+	    		<CSSTransition in={props.focus} timeout={300} classNames='slide'>
+						<SearchInput 
+			  	    className={props.focus?'focus':''}
+			  	    onFocus={props.searchInputFocus}
+			  	    onBlur={props.searchInputBlur}>
+						</SearchInput>
+	  			</CSSTransition>
+	  	  	<i className={props.focus?'focus iconfont':'iconfont'} >&#xe60a;</i>
+	  		</SearchWrapper>
+	  	</Nav>
+	  	<Side>
+		  	<Button>注册</Button>
+		  	<Button className='write'>写文章</Button>
+		  </Side>
+		</HeaderWrapper>
+	);
 }
+const mapStateToProps=(state)=>({
+	focus:state.focus
+});
+const mapDispatchToProps=(dispatch)=>({
+	searchInputFocus(){
+		dispatch({type:'search_input_focus'})
+	},
+	searchInputBlur(){
+		dispatch({type:'search_input_blur'})
+	}
+})
 
-export default Header;
+export default connect(mapStateToProps,mapDispatchToProps)(Header);
