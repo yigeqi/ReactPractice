@@ -45,7 +45,7 @@ padding:0 20px;
 export const SearchWrapper = styled.div `
 float:left;
 position:relative;
-.iconfont{
+.zoom{
 	position: absolute;
 	right: 1px;
 	bottom: 1px;
@@ -122,6 +122,14 @@ export const SearchInfoWrapper=styled.div`
 		margin-top:5px;
 		font-size: 13px;
 	  cursor: pointer;
+	}
+	.spinIcon{
+		display:block;
+		float:left;
+		font-size:12px;
+		margin-right:5px;
+		margin-top:1px;
+		transition: all .3s ease-in;
 	}
 `;
 export const SearchInfo = styled.div`

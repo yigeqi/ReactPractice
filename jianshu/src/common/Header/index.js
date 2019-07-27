@@ -22,9 +22,12 @@ class Header extends Component {
 	}
 	getHotSearchList(){//0-9,10-19,20-29,(page-1)*10--(page*10-1)
 		const { focus, isMouseEnter, hotSearchList, page } = this.props;
-		return focus||isMouseEnter?(<SearchInfoWrapper onMouseEnter={this.props.mouseEnter} onMouseLeave={this.props.mouseLeave}>
-  		<span className='title'>热门搜索</span>
-  		<span onClick={()=>this.props.switchSearchItems(page,hotSearchList)} className='switch'>换一批</span>
+		return focus||isMouseEnter?(
+			<SearchInfoWrapper onMouseEnter={this.props.mouseEnter} onMouseLeave={this.props.mouseLeave}>
+	  		<span className='title'>热门搜索</span>
+	  		<span onClick={()=>this.props.switchSearchItems(page,hotSearchList,this.spinIcon)} className='switch'>
+		  		<i ref={spinIcon=>this.spinIcon=spinIcon} className='iconfont spinIcon'>&#xe602;</i>换一批
+	  		</span>
 	  		<SearchInfo>
 	  		  {hotSearchList.slice((page-1)*10,(page*10-1)).map(
 	  		  	item=><SearchInfoItem key={item}>{item}</SearchInfoItem>)}
@@ -49,7 +52,7 @@ class Header extends Component {
 				  	    onBlur={()=>this.props.searchInputBlur(this.props.isMouseEnter)}>
 							</SearchInput>
 		  			</CSSTransition>
-		  	  	<i className={this.props.focus?'focus iconfont':'iconfont'} >&#xe60a;</i>
+		  	  	<i className={this.props.focus?'focus iconfont zoom':'iconfont  zoom'} >&#xe60a;</i>
 		  	  	{this.getHotSearchList()}
 		  		</SearchWrapper>
 		  	</Nav>
@@ -75,7 +78,11 @@ const mapDispatchToProps=(dispatch)=>({
 	searchInputBlur(isMouseEnter){
 		dispatch(actionCreators.searchInputBlur());
 	},
-	switchSearchItems(page, hotSearchList){
+	switchSearchItems(page, hotSearchList,spinIcon){
+		//”换一批“前的spinIcon的转圈动画效果
+		let angle = spinIcon.style.transform.replace(/[^\d]/ig,'');
+		angle = angle ? parseInt(angle, 10)+360 : 360;
+		spinIcon.style.transform = `rotate(${angle}deg)`;
 		const totalPage = hotSearchList.toJS().length/10;
 		dispatch(actionCreators.switchSearchItems(page>=totalPage ? 1 : page+1));
 	},
