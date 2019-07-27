@@ -1,14 +1,7 @@
-const defaultState={
-	focus:false
-}
+import {combineReducers} from 'redux';
+import {reducer as headerReducer} from '../common/Header/store'
 
-export default (state=defaultState, action)=>{
-	switch(action.type){
-	  case 'search_input_focus':
-      return {focus:true};
-	  case 'search_input_blur':
-	    return {focus:false};
-	  default:
-  	  return state;
-	}
-}
+const reducer = combineReducers({
+	header:headerReducer
+})
+export default reducer;
