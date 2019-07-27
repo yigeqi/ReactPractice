@@ -1,14 +1,16 @@
+import * as constans from './constans'
+
 const defaultState={
 	focus:false
 }
 
 export default (state=defaultState, action)=>{
 	switch(action.type){
-	  case 'search_input_focus':
-      return {focus:true};
-	  case 'search_input_blur':
-	    return {focus:false};
-	  default:
-  	  return state;
+		case constans.SEARCH_INPUT_FOCUS:
+		return {focus:true};
+		case constans.SEARCH_INPUT_BLUR:
+		return {focus:false};
+		default:
+		return state;
 	}
 }
