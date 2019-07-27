@@ -41,7 +41,7 @@ const Header = (props) => {
 	);
 }
 const mapStateToProps=(state)=>({
-	focus:state.header.focus
+	focus:state.getIn(['header', 'focus'])
 });
 const mapDispatchToProps=(dispatch)=>({
 	searchInputFocus(){
