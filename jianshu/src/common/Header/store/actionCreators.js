@@ -9,6 +9,7 @@ export const searchInputFocus = ()=>({
 export const searchInputBlur = ()=>({
 	type:constans.SEARCH_INPUT_BLUR
 })
+
 const setHostSearchList=(data)=>({
 	type:constans.SET_HOT_SEARCH_LIST,
 	data:fromJS(data)
@@ -23,3 +24,8 @@ export const getHotSearchList=()=>{
 		)
 	}
 }
+
+export const switchSearchItems=(page)=>({
+	type:constans.SWITCH_SEARCH_ITEMS,
+	page
+})

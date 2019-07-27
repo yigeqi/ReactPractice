@@ -2,7 +2,8 @@ import * as constans from './constans'
 import { fromJS } from 'immutable'
 const defaultState = fromJS({
 	focus:false,
-	hotSearchList:[]
+	hotSearchList:[],
+	page:1
 });
 
 export default (state=defaultState, action)=>{
@@ -13,6 +14,8 @@ export default (state=defaultState, action)=>{
 		  return state.set('focus', false);
 		case constans.SET_HOT_SEARCH_LIST:
 		  return state.set('hotSearchList',action.data)
+		case constans.SWITCH_SEARCH_ITEMS:
+			return state.set('page',action.page);
 		default:
 		  return state;
 	}
