@@ -29,3 +29,9 @@ export const switchSearchItems=(page)=>({
 	type:constans.SWITCH_SEARCH_ITEMS,
 	page
 })
+export const mouseEnter=()=>({
+	type:constans.MOUSE_ENTER
+})
+export const mouseLeave=()=>({
+	type:constans.MOUSE_LEAVE
+})

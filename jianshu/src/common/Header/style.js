@@ -90,7 +90,7 @@ export const SearchInput = styled.input.attrs({placeholder: '搜索'})`
 `;
 export const SearchInfoWrapper=styled.div`
 	position: absolute;
-	left: 0;
+	left: 22px;
 	top: 56px;
 	width: 240px;
 	padding: 5px 20px;

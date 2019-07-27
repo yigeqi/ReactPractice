@@ -2,6 +2,7 @@ import * as constans from './constans'
 import { fromJS } from 'immutable'
 const defaultState = fromJS({
 	focus:false,
+	isMouseEnter:false,
 	hotSearchList:[],
 	page:1
 });
@@ -16,6 +17,10 @@ export default (state=defaultState, action)=>{
 		  return state.set('hotSearchList',action.data)
 		case constans.SWITCH_SEARCH_ITEMS:
 			return state.set('page',action.page);
+		case constans.MOUSE_ENTER:
+			return state.set('isMouseEnter',true);
+		case constans.MOUSE_LEAVE:
+			return state.set('isMouseEnter',false);
 		default:
 		  return state;
 	}

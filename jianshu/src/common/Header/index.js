@@ -21,8 +21,8 @@ class Header extends Component {
 		super(props);
 	}
 	getHotSearchList(){//0-9,10-19,20-29,(page-1)*10--(page*10-1)
-		const { focus, hotSearchList, page } = this.props;
-		return focus?(<SearchInfoWrapper>
+		const { focus, isMouseEnter, hotSearchList, page } = this.props;
+		return focus||isMouseEnter?(<SearchInfoWrapper onMouseEnter={this.props.mouseEnter} onMouseLeave={this.props.mouseLeave}>
   		<span className='title'>热门搜索</span>
   		<span onClick={()=>this.props.switchSearchItems(page,hotSearchList)} className='switch'>换一批</span>
 	  		<SearchInfo>
@@ -46,7 +46,7 @@ class Header extends Component {
 							<SearchInput 
 				  	    className={this.props.focus?'focus':''}
 				  	    onFocus={()=>this.props.searchInputFocus(this.props.hotSearchList)}
-				  	    onBlur={this.props.searchInputBlur}>
+				  	    onBlur={()=>this.props.searchInputBlur(this.props.isMouseEnter)}>
 							</SearchInput>
 		  			</CSSTransition>
 		  	  	<i className={this.props.focus?'focus iconfont':'iconfont'} >&#xe60a;</i>
@@ -63,6 +63,7 @@ class Header extends Component {
 }
 const mapStateToProps=(state)=>({
 	focus:state.getIn(['header', 'focus']),
+	isMouseEnter:state.getIn(['header', 'isMouseEnter']),
 	hotSearchList:state.getIn(['header','hotSearchList']),
 	page:state.getIn(['header','page'])
 });
@@ -71,12 +72,18 @@ const mapDispatchToProps=(dispatch)=>({
     list.size==0&&dispatch(actionCreators.getHotSearchList())
 		dispatch(actionCreators.searchInputFocus());
 	},
-	searchInputBlur(){
-		// dispatch(actionCreators.searchInputBlur());
+	searchInputBlur(isMouseEnter){
+		dispatch(actionCreators.searchInputBlur());
 	},
 	switchSearchItems(page, hotSearchList){
 		const totalPage = hotSearchList.toJS().length/10;
 		dispatch(actionCreators.switchSearchItems(page>=totalPage ? 1 : page+1));
+	},
+	mouseEnter(){
+		dispatch(actionCreators.mouseEnter())
+	},
+	mouseLeave(){
+		dispatch(actionCreators.mouseLeave())
 	}
 })
 
