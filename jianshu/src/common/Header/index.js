@@ -17,9 +17,6 @@ import {
 } from './style';
 
 class Header extends Component {
-	constructor(props){
-		super(props);
-	}
 	getHotSearchList(){//0-9,10-19,20-29,(page-1)*10--(page*10-1)
 		const { focus, isMouseEnter, hotSearchList, page } = this.props;
 		return focus||isMouseEnter?(
@@ -72,7 +69,7 @@ const mapStateToProps=(state)=>({
 });
 const mapDispatchToProps=(dispatch)=>({
 	searchInputFocus(list){
-    list.size==0&&dispatch(actionCreators.getHotSearchList())
+    list.size===0&&dispatch(actionCreators.getHotSearchList())
 		dispatch(actionCreators.searchInputFocus());
 	},
 	searchInputBlur(isMouseEnter){
