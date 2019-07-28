@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { actionCreators } from './store';
+import { actionCreators as loginActionCreators } from '../../pages/login/store';
 import {
 	HeaderWrapper,
 	Logo,
@@ -42,7 +43,10 @@ class Header extends PureComponent {
 				<Nav>
 					<Link to='/'><NavItem className='active left'>首页</NavItem></Link>
 					<NavItem className='downloadApp left'>下载App</NavItem>
-		  		<NavItem className='right'>登录</NavItem>
+		  		{this.props.isLogin?
+		  			<NavItem onClick={this.props.logout} className='right'>登出</NavItem> : 
+		  			<Link to='/login'><NavItem className='right'>登录</NavItem></Link>
+		  		}
 		  		<NavItem className='right'><i className='iconfont'>&#xe607;</i></NavItem>
 		  		<SearchWrapper>
 		    		<CSSTransition in={this.props.focus} timeout={300} classNames='slide'>
@@ -65,12 +69,16 @@ class Header extends PureComponent {
   }
 }
 const mapStateToProps=(state)=>({
+	isLogin:state.getIn(['login','isLogin']),
 	focus:state.getIn(['header', 'focus']),
 	isMouseEnter:state.getIn(['header', 'isMouseEnter']),
 	hotSearchList:state.getIn(['header','hotSearchList']),
 	page:state.getIn(['header','page'])
 });
 const mapDispatchToProps=(dispatch)=>({
+	logout(){
+		dispatch(loginActionCreators.toggleLogin(false));
+	},
 	searchInputFocus(list){
     list.size===0&&dispatch(actionCreators.getHotSearchList())
 		dispatch(actionCreators.searchInputFocus());

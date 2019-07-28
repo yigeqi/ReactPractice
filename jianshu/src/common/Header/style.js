@@ -22,6 +22,7 @@ margin:0 auto;
 `;
 export const NavItem = styled.div `
 height:100%;
+cursor:pointer;
 line-height:56px;
 padding:0 20px;
 &.active{
