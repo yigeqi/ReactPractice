@@ -12,8 +12,8 @@ class List extends PureComponent {
 		return (
 			<div>
 				{this.props.list.map(item=>(
-					<Link to='/detail'>
-						<ListItem key={item.get('id')}>
+					<Link to={'/detail/'+item.get('id')} key={item.get('id')}>
+						<ListItem>
 							<img alt='' className='pic' src={item.get('imgUrl')} />
 							<ListInfo>
 								<h3 className='title'>{item.get('title')}</h3>
