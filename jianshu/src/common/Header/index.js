@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
 import { CSSTransition } from 'react-transition-group';
 import { actionCreators } from './store';
 import {
@@ -16,7 +17,7 @@ import {
 	SearchInfoItem
 } from './style';
 
-class Header extends Component {
+class Header extends PureComponent {
 	getHotSearchList(){//0-9,10-19,20-29,(page-1)*10--(page*10-1)
 		const { focus, isMouseEnter, hotSearchList, page } = this.props;
 		return focus||isMouseEnter?(
@@ -35,9 +36,11 @@ class Header extends Component {
 	render(){
 		return (
 			<HeaderWrapper>
-				<Logo></Logo>
+				<Link to='/'>
+					<Logo></Logo>
+				</Link>
 				<Nav>
-					<NavItem className='active left'>首页</NavItem>
+					<Link to='/'><NavItem className='active left'>首页</NavItem></Link>
 					<NavItem className='downloadApp left'>下载App</NavItem>
 		  		<NavItem className='right'>登录</NavItem>
 		  		<NavItem className='right'><i className='iconfont'>&#xe607;</i></NavItem>

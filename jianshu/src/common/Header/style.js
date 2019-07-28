@@ -6,9 +6,7 @@ height:56px;
 position:relative;
 border-bottom:1px solid #f0f0f0;
 `;
-export const Logo = styled.a.attrs({
-	herf: '/'
-})`
+export const Logo = styled.div`
 width:100px;
 position:absolute;
 top:0;

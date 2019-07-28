@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { ListItem, ListInfo, LoadMore } from '../style';
 import { actionCreators } from '../store'
 
-class List extends Component {
+class List extends PureComponent {
 	componentDidMount(){
 		this.props.getArticleList(this.props.page);
 	}
@@ -11,13 +12,15 @@ class List extends Component {
 		return (
 			<div>
 				{this.props.list.map(item=>(
-					<ListItem key={item.get('id')}>
-						<img alt='' className='pic' src={item.get('imgUrl')} />
-						<ListInfo>
-							<h3 className='title'>{item.get('title')}</h3>
-							<p className='desc'>{item.get('desc')}</p>
-						</ListInfo>
-					</ListItem>
+					<Link to='/detail'>
+						<ListItem key={item.get('id')}>
+							<img alt='' className='pic' src={item.get('imgUrl')} />
+							<ListInfo>
+								<h3 className='title'>{item.get('title')}</h3>
+								<p className='desc'>{item.get('desc')}</p>
+							</ListInfo>
+						</ListItem>
+					</Link>
 				))}
 				<LoadMore 
 					className={this.props.page>=4?'disabled':''} 

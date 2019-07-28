@@ -23,6 +23,7 @@ export const HomeRight = styled.div`
 `;
 export const ListItem = styled.div`
 	overflow: hidden;
+	cursor:pointer;
 	padding: 20px 0;
 	border-bottom: 1px solid #dcdcdc;
 	.pic {

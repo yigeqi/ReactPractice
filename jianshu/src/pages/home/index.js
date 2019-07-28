@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import List from './components/List';
 import Recommend from './components/Recommend';
 import Writer from './components/Writer';
@@ -8,7 +8,7 @@ import {
 	HomeRight
 } from './style'
 
-class Home extends Component {
+class Home extends PureComponent {
 	render(){
 		return (
 			<HomeWrapper>
