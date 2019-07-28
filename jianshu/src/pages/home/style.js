@@ -65,6 +65,16 @@ export const LoadMore = styled.div`
     color: #cac4c4;
 	}
 `;
- 
+export const BackTop = styled.div.attrs({title:'返回顶部'})`
+	position: fixed;
+	right: 60px;
+	bottom: 60px;
+	width: 60px;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	border: 1px solid #ccc;
+	font-size: 14px;
+`; 
 
  

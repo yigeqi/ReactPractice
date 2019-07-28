@@ -1,14 +1,26 @@
 import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+import { actionCreators } from './store';
 import List from './components/List';
 import Recommend from './components/Recommend';
 import Writer from './components/Writer';
 import {
 	HomeWrapper,
 	HomeLeft,
-	HomeRight
+	HomeRight,
+	BackTop
 } from './style'
 
 class Home extends PureComponent {
+	backTop(){
+		window.scrollTo(0,0);
+	}
+	componentDidMount(){
+    window.addEventListener('scroll',this.props.scrollFn);
+	}
+	componentWillUnmount(){
+    window.removeEventListener('scroll',this.props.scrollFn);
+	}
 	render(){
 		return (
 			<HomeWrapper>
@@ -20,8 +32,21 @@ class Home extends PureComponent {
 					<Recommend />
 					<Writer />
 				</HomeRight>
-			</HomeWrapper>		)
+				{this.props.showScrollTop ? <BackTop onClick={this.backTop}>^</BackTop> : null }
+			</HomeWrapper>
+		)
 	}
 }
-
-export default Home
+const mapStateToProps=(state)=>({
+	showScrollTop:state.getIn(['home','showScrollTop'])
+});
+const mapDispatchToProps=(dispatch)=>({
+  scrollFn(){
+    if(document.documentElement.scrollTop>200){
+    	dispatch(actionCreators.toggleScrollTop(true))
+    }else{
+    	dispatch(actionCreators.toggleScrollTop(false))
+    }
+  }
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

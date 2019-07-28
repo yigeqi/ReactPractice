@@ -18,3 +18,8 @@ export const getArticleList=(page)=>{
 	  })
 	}
 }
+
+export const toggleScrollTop=(isShow)=>({
+	type:constans.TOOGLE_SHOW_SCROLL_TOP,
+	isShow
+})
