@@ -6,11 +6,11 @@ export const LoginWrapper = styled.div`
 	left: 0;
 	right: 0;
 	bottom: 0;
-	top: 56px;
+	top: 0;
 	background: #eee;
 `;
 
-export const LoginBox = styled.div`
+export const LoginBox = styled.form`
 	width: 400px;
 	height: 180px;
 	margin: 100px auto;
@@ -19,7 +19,7 @@ export const LoginBox = styled.div`
 	box-shadow: 0 0 8px rgba(0,0,0,.1);
 `;
 
-export const Input = styled.input`
+export const Input = styled.input.attrs({autocomplete:'password'})`
 	display: block;
 	width: 200px;
 	height: 30px;
