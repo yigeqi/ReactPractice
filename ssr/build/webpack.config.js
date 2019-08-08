@@ -1,4 +1,5 @@
 const path = require('path');
+const HTMLplugin = require('html-webpack-plugin')
 
 module.exports = {
 	entry: {
@@ -9,5 +10,21 @@ module.exports = {
 		path: path.join(__dirname, '../dist'),
 		publicPath: '/public'
 	},
-	mode: 'development'
+	mode: 'development',
+	module: {
+		rules: [
+			{
+				test: /.jsx$/,
+				loader: 'babel-loader'
+			},
+			{
+				test: /.js$/,
+				exclude: path.join(__dirname, '../node_modules'),
+				loader: 'babel-loader'
+			}
+		]
+	},
+	plugins: [
+		new HTMLplugin()
+	]
 }
