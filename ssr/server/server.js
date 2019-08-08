@@ -10,7 +10,7 @@ const serverEntry = require('../dist/server-entry.js').default
 app.use('/public', express.static(path.join(__dirname, '../dist')));
 
 app.get('*', function (req, res) {
-	res.send(template.replace('<app></app>', ReactDOMServer.renderToString(serverEntry)));
+	res.send(template.replace('<!-- app -->', ReactDOMServer.renderToString(serverEntry)));
 });
 
 app.listen(3333, function () {
