@@ -1,11 +1,10 @@
-const path = require('path');
+const path = require('path')
+const webpack = require('webpack')
 const HTMLplugin = require('html-webpack-plugin')
 
 const isDev = process.env.NODE_ENV==='development'
 const config = {
-	entry: {
-		app: path.join(__dirname, '../client/app.js')
-	},
+	entry: ['react-hot-loader/patch', path.join(__dirname, '../client/app.js')],
 	output: {
 		filename: '[name].[hash].js',
 		path: path.join(__dirname, '../dist'),
@@ -41,10 +40,12 @@ if(isDev) {
 		historyApiFallback: {
 			index: '/public/index.html'
 		},
+		hot: true,
 		overlay: {
       errors: true
     }
-	}
+	};
+	config.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 
 module.exports = config
