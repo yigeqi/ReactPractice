@@ -6,5 +6,5 @@ import { hot } from 'react-hot-loader/root'; // eslint-disable-line
 //    return (<div>this is app111.</div>)
 //  }
 // }
-const App = () => (<div>this is app111.</div>)
+const App = () => (<div>this is app.</div>)
 export default module.hot ? hot(App) : App
