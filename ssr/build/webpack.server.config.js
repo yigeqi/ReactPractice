@@ -14,6 +14,12 @@ module.exports = {
 	mode: 'development',
 	module: {
 		rules: [
+      {
+        enforce: "pre",
+        test: /\.jsx?$/,
+        exclude: path.join(__dirname, '../node_modules'),
+        loader: "eslint-loader"
+      },
 			{
 				test: /.jsx$/,
 				loader: 'babel-loader'
