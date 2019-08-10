@@ -8,7 +8,7 @@ const baseConfig = require('./webpack.base.config.js')
 const isDev = process.env.NODE_ENV==='development'
 
 const config = webpackMerge(baseConfig, {
-	entry: ['react-hot-loader/patch', path.join(__dirname, '../client/app.js')],
+	entry: ['react-hot-loader/patch', path.join(__dirname, '../client/index.js')],
 	output: {
 		filename: '[name].[hash].js',
 	},

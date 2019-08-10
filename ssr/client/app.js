@@ -1,14 +1,21 @@
-
 import React from 'react'
-import ReactDom from 'react-dom'
-import App from './app.jsx'
+import { hot } from 'react-hot-loader/root'; // eslint-disable-line
+import { BrowserRouter, Link } from 'react-router-dom'
+import Routers from './config/routers'
 
-const root = document.getElementById('root');
-
-ReactDom.hydrate(<App />, root);
-
-if (module.hot) {
-  module.hot.accept('./app.jsx', () => {
-    ReactDom.hydrate(<App />, root);
-  });
+class App extends React.Component {
+  componentDidMount() {
+    // do
+  }
+  render() {
+    return (
+      <BrowserRouter>
+        <Link to='/'>首页</Link>
+        <Link to='/detail'>详情页</Link>
+        <Routers />
+      </BrowserRouter>
+    )
+  }
 }
+
+export default module.hot ? hot(App) : App
