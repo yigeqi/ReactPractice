@@ -17,6 +17,8 @@
     "semi": [0],
     "comma-dangle": [0],
     "jsx-quotes": [0],
+    "react/destructuring-assignment": [0],
+    "react/require-default-props": [0],
     "lines-between-class-members": [0],
     "react/jsx-filename-extension": [0]
   }

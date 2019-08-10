@@ -1,24 +1,29 @@
-import { observable, computed, autorun } from "mobx";
+import {
+  observable,
+  computed,
+  action,
+  autorun
+} from 'mobx';
 
-class AppState {
+export class AppState {
   @observable num = 0
   @observable name = 'Jim'
   @computed get msg() {
-      return `${this.name} says the num is ${this.num}`
+    return `${this.name} says the num is ${this.num}`
   }
 
   @action
   addNum() {
-    this.num+=1
+    this.num += 1
   }
 }
 
-const appState = new AppState()
+export const appState = new AppState()
 
-autorun(()=>{
-  console.log(this.msg)
+autorun(() => {
+  console.log(appState.msg)
 })
 
-setInterval(appState.addNum, 1000)
+setInterval(() => appState.addNum(), 1000)
 
-export default appState
+// export default appState
