@@ -8,8 +8,7 @@ const root = document.getElementById('root');
 ReactDom.hydrate(<App />, root);
 
 if (module.hot) {
-  module.hot.accept('./app.jsx', function() {
-  	ReactDom.hydrate(<App />, root);
+  module.hot.accept('./app.jsx', () => {
+    ReactDom.hydrate(<App />, root);
   });
 }
-
