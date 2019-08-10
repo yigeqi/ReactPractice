@@ -1,41 +1,24 @@
 const path = require('path')
 const webpack = require('webpack')
+const webpackMerge = require('webpack-merge')
 const HTMLplugin = require('html-webpack-plugin')
 
+const baseConfig = require('./webpack.base.config.js')
+
 const isDev = process.env.NODE_ENV==='development'
-const config = {
+
+const config = webpackMerge(baseConfig, {
 	entry: ['react-hot-loader/patch', path.join(__dirname, '../client/app.js')],
 	output: {
 		filename: '[name].[hash].js',
-		path: path.join(__dirname, '../dist'),
-		publicPath: '/public/'
 	},
   mode: 'production',
-	module: {
-		rules: [
-      {
-        enforce: "pre",
-        test: /\.jsx?$/,
-        exclude: path.join(__dirname, '../node_modules'),
-        loader: "eslint-loader"
-      },
-			{
-				test: /.jsx$/,
-				loader: 'babel-loader'
-			},
-			{
-				test: /.js$/,
-				exclude: path.join(__dirname, '../node_modules'),
-				loader: 'babel-loader'
-			}
-		]
-	},
 	plugins: [
 		new HTMLplugin({
 			template: path.join(__dirname, '../client/template.html')
 		})
 	]
-}
+})
 
 if(isDev) {
 	config.mode = 'development';

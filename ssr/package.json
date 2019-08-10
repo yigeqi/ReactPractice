@@ -41,6 +41,7 @@
     "memory-fs": "^0.4.1",
     "react-hot-loader": "^4.12.10",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "webpack-merge": "^4.2.1"
   }
 }
