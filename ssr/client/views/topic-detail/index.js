@@ -24,10 +24,7 @@ class TopicDetail extends React.Component {
   }
   login() {
     // const
-    axios.post('/api/login', {
-      // data: {accesstoken: accessToken}
-      data: { accesstoken: this.state.accessToken }
-    })
+    axios.post('/api/login', { accesstoken: this.state.accessToken })
   }
   markAll() {
     axios.post('/api/message/mark_all?accessToken=true')
