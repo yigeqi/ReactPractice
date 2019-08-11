@@ -30,6 +30,9 @@ if(isDev) {
 		historyApiFallback: {
 			index: '/public/index.html'
 		},
+    proxy: {
+      '/api': 'http://localhost:3333'
+    },
 		hot: true,
 		overlay: {
       errors: true
