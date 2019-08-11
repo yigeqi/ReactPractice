@@ -16,6 +16,10 @@ export class AppState {
   addNum() {
     this.num += 1
   }
+  @action
+  changeName(name) {
+    this.name = name
+  }
 }
 
 export const appState = new AppState()

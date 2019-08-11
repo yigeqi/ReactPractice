@@ -5,12 +5,22 @@ import { AppState } from '../../store/app-state'
 
 @inject('appState') @observer
 class TopicList extends React.Component {
+  constructor(props) {
+    super(props)
+    this.changeName = this.changeName.bind(this)
+  }
   componentDidMount() {
     // do
   }
+  changeName(e) {
+    this.props.appState.changeName(e.target.value)
+  }
   render() {
     return (
-      <div>{this.props.appState.msg}</div>
+      <div>
+        <input type='text' onChange={this.changeName} />
+        {this.props.appState.msg}
+      </div>
     )
   }
 }
