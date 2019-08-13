@@ -28,7 +28,8 @@ if(isDev) {
 		contentBase: path.join(__dirname, '../dist'),
 		publicPath: '/public/',
 		historyApiFallback: {
-			index: '/public/index.html'
+      // index: true  // not ok
+      index: '/public/index.html'
 		},
     proxy: {
       '/api': 'http://localhost:3333'

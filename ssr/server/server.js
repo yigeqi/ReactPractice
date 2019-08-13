@@ -13,12 +13,14 @@ app.use(bodyParser.json())
 // 对于Content-Type: application/x-www-form-urlencoded的请求体解析
 app.use(bodyParser.urlencoded({extended: false}))
 
-app.set('trust proxy', 1) // trust first proxy
 app.use(session({
   secret: 'red apple',
   resave: false,
   saveUninitialized: false,
-  maxAge: 10 * 60 * 1000
+  maxAge: 10 * 60 * 1000,
+  cookie: {
+    httpOnly: true
+  }
 }))
 
 // nodejs代理cnodejs网站的login及其他接口

@@ -8,7 +8,7 @@ router.use((req, res, next) => {
   const needAccessToken = req.query.accessToken === 'true'
   // 注意此处 req.query = {accessToken: 'true'}
   const user = req.session.user || {}
-  console.log(req.session)
+  // console.log(req.headers.cookie)
   if (needAccessToken && !user.accessToken) {
     res.status(401).json({success: false, data: 'need login'})
   } else {
