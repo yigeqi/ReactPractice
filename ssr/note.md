@@ -18,7 +18,11 @@ html-webpack-plugin会在build的时候自动生成一个html文件，并引入�
 ---  
 开发时，如何做到server端修改代码时，服务器也会自动更新重启：使用nodemon代替node命令启动服务，可增加nodemon.json配置文件。   
 ---   
-
+如何配置服务端的路由？import {StaticRouter} from 'react-router-dom', server-entry.js里返回一个传入参数的函数，把<App/>包裹后返回，传入routerContext（来自react-router,内含一些与router相关的信息）和url(来自req.url)参数：<StaticRouter context={routerContext} location={url}>   
+---   
+如何配置服务端根据不同的请求生成不同的store？ 把app-state.js改成export 一个AppState类，在client端改为<Provider appState={new AppState()}>。server端引用server-entry.js时，传入参数：AppState的一个实例，{}, req.url   
+---   
+appState里异步请求数据：使用'react-async-bootstrapper'，这样再server端也会取得异步数据后再渲染出页面。使用server.template.ejs的模板文件取代server.js里的template.html,使得模板文件可以使用state变量。
 
 
 

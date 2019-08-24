@@ -20,7 +20,7 @@ const mfs = new MemoryFS();
 const compiler = webpack(serverConfig);
 
 const Module = module.constructor	
-let serverBundle
+let serverBundle, createStoreMap
 
 compiler.outputFileSystem = mfs;
 compiler.watch({}, (err, stats) => {
@@ -47,6 +47,7 @@ compiler.watch({}, (err, stats) => {
   const m = new Module()
   m._compile(serverBundleStr, 'server-entry')
   serverBundle = m.exports.default
+  createStoreMap = m.exports.createStoreMap
 });
 
 module.exports = (app) => {
@@ -54,7 +55,11 @@ module.exports = (app) => {
 
   app.get('*', function (req, res) {
 		getTemplate().then( template => {
-  		const content = ReactDOMServer.renderToString(serverBundle);
+
+      const routerContext={}
+      const appElement = serverBundle(createStoreMap(), routerContext, req.url)
+      console.log('sssssss',appElement)
+  		const content = ReactDOMServer.renderToString(appElement);
 			res.send(template.replace('<!-- app -->', content))
 		});
 	});
