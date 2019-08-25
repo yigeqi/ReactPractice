@@ -9,6 +9,7 @@ app.use(favicon(path.join(__dirname, '../favicon.ico')))
 
 const isDev = process.env.NODE_ENV === 'development'
 
+console.log('isDev:', isDev)
 if (!isDev) {
   // 生产模式下，直接使用build生成的dist文件夹里的index.html和js文件
   const template = fs.readFileSync(path.join(__dirname,'../dist/index.html'), 'utf8')
