@@ -1,6 +1,6 @@
 import { observable, computed, action } from 'mobx'
 
-class AppState {
+export class AppState {
   @observable count = 0
   @observable name = 'lily'
   @computed get msg() {

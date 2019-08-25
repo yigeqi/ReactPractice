@@ -1,12 +1,24 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { observer, inject } from 'mobx-react'
+import { AppState } from '../../store/app-state'
 
-class TopicDetail extends React.Component {
+@inject('appState') @observer
+export default class TopicDetail extends React.Component {
   componentDidMount() {
     // do
   }
   render() {
-    return (<div>this is TopicDetail.</div>)
+    const { appState } = this.props
+    return (
+      <div>
+        this is TopicDetail with
+        {appState.msg}
+      </div>
+    )
   }
 }
 
-export default TopicDetail
+TopicDetail.propTypes = {
+  appState: PropTypes.instanceOf(AppState).isRequired
+}
