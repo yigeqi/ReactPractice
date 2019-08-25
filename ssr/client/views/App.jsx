@@ -7,7 +7,7 @@ class App extends React.Component {
     // do
   }
   render() {
-    return (<div>this is appsrrrss11dddd1.</div>)
+    return (<div>this is appss11ss1.</div>)
   }
 }
 

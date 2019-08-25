@@ -1,7 +1,7 @@
 import React from 'react'
 
 class TopicList extends React.Component {
-  componentDidMount () {
+  componentDidMount() {
     // do
   }
   render() {
