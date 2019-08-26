@@ -33,7 +33,7 @@ export default class TopicDetail extends React.Component {
     })
   }
   login() {
-    axios.post('/api/user/login', {accessToken: 'your own accessToken'}).then(res => {
+    axios.post('/api/user/login', {accessToken: 'be6-87e5-c9c135b0279b'}).then(res => {
       console.log(res)
     }).catch(err => {
       console.log(err)

@@ -13,14 +13,19 @@ module.exports = (req, res, next) => {
     })
   }
   // 正式发请求前再把query里的needAccessToken删掉
-  const query = Object.assign({}, req.query)
+  const query = Object.assign({}, req.query, {
+    accesstoken: (needAccessToken && req.method === 'GET' ? user.accessToken : '')
+  })
   if (query.needAccessToken) delete query.needAccessToken
   axios(`${baseUrl}${req.path}`, {
     method: req.method,
     params: query,
     data: Object.assign({}, req.body, {
-      accesstoken: user.accessToken
+      accesstoken: (needAccessToken && req.method === 'POST' ? user.accessToken : '')
     })
+    // headers: {
+    //   'Content-Type': 'application/x-www-form-urlencoded'
+    // }
   }).then(resp => {
     if (resp.status === 200) {
       res.send(resp.data)
