@@ -47,9 +47,11 @@ compiler.watch({}, (err, stats) => {
     path.join(serverConfig.output.path, serverConfig.output.filename), 'utf8'
   )
   // 把serverBundleStr变成一个可执行的模块
+  // console.log(serverBundleStr)
   const m = new Module()
   m._compile(serverBundleStr, 'server-entry.js')
   serverBundle = m.exports.default
+  // console.log(serverBundle)
 })
 
 module.exports = (app) => {
@@ -59,8 +61,12 @@ module.exports = (app) => {
   app.get('*', function (req, res) {
     // 获取index.html后把里面的'<!-- app -->'替换成server端的渲染结果就可以了（目前不支持服务端的路由）
     getTemplate().then(template => {
+      // const routerContext = {}
+      // const comp = serverBundle(routerContext, req.url)
+      // console.log(comp)
       const content = ReactDOMServer.renderToString(serverBundle)
-      res.send(template.replace('<!-- app -->', content))
+      const html = template.replace('<!-- app -->', content)
+      res.send(html)
     })
   })
 }

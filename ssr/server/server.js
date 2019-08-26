@@ -27,7 +27,7 @@ app.use('/api', require('./util/proxy'))
 
 if (!isDev) {
   // 生产模式下，直接使用build生成的dist文件夹里的index.html和js文件
-  const template = fs.readFileSync(path.join(__dirname,'../dist/index.html'), 'utf8')
+  const template = fs.readFileSync(path.join(__dirname, '../dist/index.html'), 'utf8')
   const serverEntry = require('../dist/server-entry.js').default
 
   app.use('/public', express.static(path.join(__dirname, '../dist')))
