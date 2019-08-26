@@ -22,7 +22,7 @@ const compiler = webpack(serverConfig)
 // 通过webpack(config)可以启动一个compiler,
 // 它可以监听config里entry下的文件，有改动时为自动重新打包
 const Module = module.constructor
-let serverBundle
+let serverBundle // , createStoreMap
 
 compiler.outputFileSystem = mfs
 // 把webpack打包结果放到内存中，而非硬盘中（慢）
@@ -51,7 +51,7 @@ compiler.watch({}, (err, stats) => {
   const m = new Module()
   m._compile(serverBundleStr, 'server-entry.js')
   serverBundle = m.exports.default
-  // console.log(serverBundle)
+  // createStoreMap = m.exports.createStoreMap
 })
 
 module.exports = (app) => {
@@ -61,10 +61,10 @@ module.exports = (app) => {
   app.get('*', function (req, res) {
     // 获取index.html后把里面的'<!-- app -->'替换成server端的渲染结果就可以了（目前不支持服务端的路由）
     getTemplate().then(template => {
-      // const routerContext = {}
-      // const comp = serverBundle(routerContext, req.url)
+      const routerContext = {}
+      const comp = serverBundle(routerContext, req.url)
       // console.log(comp)
-      const content = ReactDOMServer.renderToString(serverBundle)
+      const content = ReactDOMServer.renderToString(comp)
       const html = template.replace('<!-- app -->', content)
       res.send(html)
     })
