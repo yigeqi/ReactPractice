@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer, inject } from 'mobx-react'
+import axios from 'axios';
 import { AppState } from '../../store/app-state'
 
 @inject('appState') @observer
@@ -8,6 +9,7 @@ export default class TopicDetail extends React.Component {
   constructor() {
     super()
     this.changeName = this.changeName.bind(this)
+    // this.getTopics = this.getTopics.bind(this)
   }
   componentDidMount() {
     // do
@@ -15,12 +17,38 @@ export default class TopicDetail extends React.Component {
   changeName(e) {
     this.props.appState.changeName(e.target.value)
   }
+  /* eslint-disable */
+  getTopics() {
+    axios.get('/api/topics').then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+  mark() {
+    axios.post('/api/message/mark_all?needAccessToken=true').then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+  login() {
+    axios.post('/api/user/login', {accessToken: 'your own accessToken'}).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+  /* eslint-enable */
   render() {
     const { appState } = this.props
     return (
       <div>
         <input type='text' onChange={this.changeName} />
         <p>this is TopicDetail with {appState.msg}</p>
+        <button type='button' onClick={this.getTopics}>get topics</button>
+        <button type='button' onClick={this.login}>login</button>
+        <button type='button' onClick={this.mark}>mark</button>
       </div>
     )
   }

@@ -44,6 +44,9 @@ if (isDev) {
     // 在browser的页面里显示编译错误
     overlay: {
       errors: true
+    },
+    proxy: {
+      '/api': 'http://localhost:3333'
     }
   }
   config.plugins.push(new webpack.HotModuleReplacementPlugin())
