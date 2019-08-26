@@ -63,8 +63,13 @@ module.exports = (app) => {
     getTemplate().then(template => {
       const routerContext = {}
       const comp = serverBundle(routerContext, req.url)
-      // console.log(comp)
       const content = ReactDOMServer.renderToString(comp)
+      // 当页面有redirect时，默认ssr不会渲染redicrctTo的组件，但是routerContext会有url属性,可以做手动跳转
+      if (routerContext.url) {
+        res.status(302).setHeader('Location', routerContext.url)
+        res.end()
+        return
+      }
       const html = template.replace('<!-- app -->', content)
       res.send(html)
     })
