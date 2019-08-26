@@ -5,7 +5,7 @@ import TopicList from '../views/topic-list'
 import TopicDetail from '../views/topic-detail'
 
 export default () => [
-  <Route path='/' render={() => <Redirect to='/list' />} exact />,
-  <Route path='/list' component={TopicList} exact />,
-  <Route path='/detail' component={TopicDetail} exact />
+  <Route key='' path='/' render={() => <Redirect to='/list' />} exact />,
+  <Route key='/list' path='/list' component={TopicList} exact />,
+  <Route key='/detail' path='/detail' component={TopicDetail} exact />
 ]
