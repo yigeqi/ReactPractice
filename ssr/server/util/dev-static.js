@@ -17,12 +17,26 @@ const getTemplate = () => {
   })
 }
 
+const NativeModule = require('module')
+const vm = require('vm')
+const getModuleFromString = (bundle, filename) => {
+  const m = { exports: {} }
+  const wrapper = NativeModule.wrap(bundle)
+  const script = new vm.Script(wrapper, {
+    filename: filename,
+    displayErrors: true
+  })
+  const result = script.runInThisContext()
+  result.call(m.exports, m.exports, require, m)
+  return m
+}
+
 const mfs = new MemoryFS()
 const compiler = webpack(serverConfig)
 // 通过webpack(config)可以启动一个compiler,
 // 它可以监听config里entry下的文件，有改动时为自动重新打包
 const Module = module.constructor
-let serverBundle // , createStoreMap
+let serverBundle, createStoreMap
 
 compiler.outputFileSystem = mfs
 // 把webpack打包结果放到内存中，而非硬盘中（慢）
@@ -43,15 +57,15 @@ compiler.watch({}, (err, stats) => {
     console.warn(info.warnings)
   }
   // 之后读取内存中build的文件：
-  const serverBundleStr = mfs.readFileSync(
+  const bundle = mfs.readFileSync(
     path.join(serverConfig.output.path, serverConfig.output.filename), 'utf8'
   )
-  // 把serverBundleStr变成一个可执行的模块
-  // console.log(serverBundleStr)
-  const m = new Module()
-  m._compile(serverBundleStr, 'server-entry.js')
+  // 把bundle变成一个可执行的模块
+  // const m = new Module()
+  // m._compile(bundle, 'server-entry.js')
+  const m = getModuleFromString(bundle, 'server-entry.js')
   serverBundle = m.exports.default
-  // createStoreMap = m.exports.createStoreMap
+  createStoreMap = m.exports.createStoreMap
 })
 
 module.exports = (app) => {
@@ -62,7 +76,8 @@ module.exports = (app) => {
     // 获取index.html后把里面的'<!-- app -->'替换成server端的渲染结果就可以了（目前不支持服务端的路由）
     getTemplate().then(template => {
       const routerContext = {}
-      const comp = serverBundle(routerContext, req.url)
+      const stores = createStoreMap()
+      const comp = serverBundle(stores, routerContext, req.url)
       const content = ReactDOMServer.renderToString(comp)
       // 当页面有redirect时，默认ssr不会渲染redicrctTo的组件，但是routerContext会有url属性,可以做手动跳转
       if (routerContext.url) {
