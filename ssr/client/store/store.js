@@ -1,8 +1,6 @@
-import AppStateClass from './app-state'
-
-export const AppState = AppStateClass
+import AppState from './app-state'
 
 // createStoreMap用于服务端渲染时的store
-export const createStoreMap = () => ({
+export default () => ({
   appState: new AppState()
 })
