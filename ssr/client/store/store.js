@@ -1,6 +1,9 @@
 import AppState from './app-state'
 
+export default {
+  AppState
+}
 // createStoreMap用于服务端渲染时的store
-export default () => ({
+export const createStoreMap = () => ({
   appState: new AppState()
 })

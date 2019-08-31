@@ -22,6 +22,14 @@ export default class TopicDetail extends React.Component {
   componentDidMount() {
     // do
   }
+  fetchData() {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        this.props.appState.name = 'new-name'
+        resolve(true)
+      })
+    })
+  }
   changeName(e) {
     this.props.appState.changeName(e.target.value)
   }

@@ -13,7 +13,7 @@ import React from 'react'
 import { StaticRouter } from 'react-router-dom'
 import { Provider, useStaticRendering } from 'mobx-react'
 import App from './views/App'
-import createStoreMap from './store/store'
+import { createStoreMap } from './store/store'
 
 useStaticRendering(true)
 // ssr时，不同页面是各自不同的store实例

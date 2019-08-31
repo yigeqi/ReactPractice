@@ -3,6 +3,7 @@ const MemoryFS = require('memory-fs')
 const path = require('path')
 const axios = require('axios')
 const webpack = require('webpack')
+const ssrPrepass = require('react-ssr-prepass')
 const serverConfig = require('../../build/webpack.server.config.js')
 const proxy = require('http-proxy-middleware')
 
@@ -35,7 +36,7 @@ const mfs = new MemoryFS()
 const compiler = webpack(serverConfig)
 // 通过webpack(config)可以启动一个compiler,
 // 它可以监听config里entry下的文件，有改动时为自动重新打包
-const Module = module.constructor
+// const Module = module.constructor
 let serverBundle, createStoreMap
 
 compiler.outputFileSystem = mfs
@@ -76,17 +77,25 @@ module.exports = (app) => {
     // 获取index.html后把里面的'<!-- app -->'替换成server端的渲染结果就可以了（目前不支持服务端的路由）
     getTemplate().then(template => {
       const routerContext = {}
+      // console.log(asyncBootstrap, createStoreMap)
       const stores = createStoreMap()
       const comp = serverBundle(stores, routerContext, req.url)
-      const content = ReactDOMServer.renderToString(comp)
-      // 当页面有redirect时，默认ssr不会渲染redicrctTo的组件，但是routerContext会有url属性,可以做手动跳转
-      if (routerContext.url) {
-        res.status(302).setHeader('Location', routerContext.url)
-        res.end()
-        return
-      }
-      const html = template.replace('<!-- app -->', content)
-      res.send(html)
+      // ssrPrepass用于在render之前调用组件的fetchData方法获取数据
+      ssrPrepass(comp, (_element, instance) => {
+        if (instance !== undefined && typeof instance.fetchData === 'function') {
+          return instance.fetchData()
+        }
+      }).then(() => {
+        // 当页面有redirect时，默认ssr不会渲染redicrctTo的组件，但是routerContext会有url属性,可以做手动跳转
+        if (routerContext.url) {
+          res.status(302).setHeader('Location', routerContext.url)
+          res.end()
+          return
+        }
+        const content = ReactDOMServer.renderToString(comp)
+        const html = template.replace('<!-- app -->', content)
+        res.send(html)
+      }).catch(err => console.log(err))
     })
   })
 }

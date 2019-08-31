@@ -28,7 +28,7 @@ const config = webpackMerge(baseConfig, {
 // devServer启动的服务器在文件修改时会自动在内存里重新编译，不用手动build
 // hot module replacement能在browser里无刷新的自动更新页面
 if (isDev) {
-  config.mode = 'development';
+  config.mode = 'development'
   config.devServer = {
     host: '0.0.0.0',
     port: '8888',

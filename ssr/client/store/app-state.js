@@ -9,4 +9,11 @@ export default class AppState {
   @action changeName(name) {
     this.name = name
   }
+  // 用于ssr时的数据注入
+  // toJSON() {
+  //   return {
+  //     count: this.count,
+  //     name: this.name
+  //   }
+  // }
 }
