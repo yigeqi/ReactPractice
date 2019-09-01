@@ -14,7 +14,7 @@ const config = webpackMerge(baseConfig, {
     ]
   },
   output: {
-    filename: '[name].[hash].js',
+    filename: '[name].[hash].js'
   },
   mode: 'production',
   plugins: [
@@ -22,6 +22,10 @@ const config = webpackMerge(baseConfig, {
     // 并自动插入build出来的js文件（路径是output里的publicPath内容）
     new HTMLplugin({
       template: path.join(__dirname, '../client/template.html')
+    }),
+    new HTMLplugin({
+      template: '!!ejs-compiled-loader!' + path.join(__dirname, '../client/template.server.ejs'),
+      filename: 'server.ejs'
     })
   ]
 })

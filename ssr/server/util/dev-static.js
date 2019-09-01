@@ -4,13 +4,15 @@ const path = require('path')
 const axios = require('axios')
 const webpack = require('webpack')
 const ssrPrepass = require('react-ssr-prepass')
+const ejs = require('ejs')
+const serialize = require('serialize-javascript')
 const serverConfig = require('../../build/webpack.server.config.js')
 const proxy = require('http-proxy-middleware')
 
 // 使用http请求的方式得到index.html
 const getTemplate = () => {
   return new Promise((resolve, reject) => {
-    axios.get('http://localhost:8888/public/index.html')
+    axios.get('http://localhost:8888/public/server.ejs')
       .then(res => resolve(res.data))
       .catch(err => {
         console.error('get template error', err)
@@ -68,7 +70,12 @@ compiler.watch({}, (err, stats) => {
   serverBundle = m.exports.default
   createStoreMap = m.exports.createStoreMap
 })
-
+const getStoreStates = (stores) => {
+  return Object.keys(stores).reduce((result, storeName) => {
+    result[storeName] = stores[storeName].toJSON() // toJSON方法来自app-state.js
+    return result
+  }, {})
+}
 module.exports = (app) => {
   // 没有proxy的话，后面index.html里的js文件就也会走app.get('*',...)
   app.use('/public', proxy({ target: 'http://localhost:8888' }))
@@ -93,7 +100,14 @@ module.exports = (app) => {
           return
         }
         const content = ReactDOMServer.renderToString(comp)
-        const html = template.replace('<!-- app -->', content)
+        let state = getStoreStates(stores)
+        state = serialize(state)
+        console.log(state)
+        const html = ejs.render(template, {
+          appString: content,
+          initialState: state
+        })
+        // const html = template.replace('<!-- app -->', content)
         res.send(html)
       }).catch(err => console.log(err))
     })

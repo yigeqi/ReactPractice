@@ -6,17 +6,10 @@ import App from './views/App'
 import AppState from './store/app-state'
 
 const root = document.getElementById('root')
-// const render = (Component) => {
-//   ReactDom.hydrate(
-//     <BrowserRouter>
-//       <Component />
-//     </BrowserRouter>,
-//     root
-//   )
-// }
+const initialState = window.__INITIAL_STATE__ || {} // eslint-disable-line
 const render = (Component) => {
   ReactDom.hydrate(
-    <Provider appState={new AppState()}>
+    <Provider appState={new AppState(initialState.appState)}>
       <BrowserRouter>
         <Component />
       </BrowserRouter>
