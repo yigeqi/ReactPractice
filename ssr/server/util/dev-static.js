@@ -6,6 +6,7 @@ const webpack = require('webpack')
 const ssrPrepass = require('react-ssr-prepass')
 const ejs = require('ejs')
 const serialize = require('serialize-javascript')
+const Helmet = require('react-helmet').default
 const serverConfig = require('../../build/webpack.server.config.js')
 const proxy = require('http-proxy-middleware')
 
@@ -100,12 +101,13 @@ module.exports = (app) => {
           return
         }
         const content = ReactDOMServer.renderToString(comp)
+        const helmet = Helmet.renderStatic()
         let state = getStoreStates(stores)
         state = serialize(state)
-        console.log(state)
         const html = ejs.render(template, {
           appString: content,
-          initialState: state
+          initialState: state,
+          helmet
         })
         // const html = template.replace('<!-- app -->', content)
         res.send(html)

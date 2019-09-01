@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { observer, inject } from 'mobx-react'
-import axios from 'axios';
+import axios from 'axios'
+import Helmet from 'react-helmet'
 import AppState from '../../store/app-state'
 
 // export default class TopicDetail extends React.Component {
@@ -60,6 +61,10 @@ export default class TopicDetail extends React.Component {
     const { appState } = this.props
     return (
       <div>
+        <Helmet>
+          <title>this is topic detail title</title>
+          <meta name='description' content='topic-detail description' />
+        </Helmet>
         <input type='text' onChange={this.changeName} />
         <p>this is TopicDetail with {appState.msg}</p>
         <button type='button' onClick={this.getTopics}>get topics</button>
