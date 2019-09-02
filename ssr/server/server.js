@@ -1,10 +1,10 @@
-const ReactDOMServer = require('react-dom/server')
 const express = require('express')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 const favicon = require('serve-favicon')
 const fs = require('fs')
 const path = require('path')
+const serverRender = require('./util/server-render.js')
 
 const app = express()
 app.use(bodyParser.json())
@@ -27,18 +27,22 @@ app.use('/api', require('./util/proxy'))
 
 if (!isDev) {
   // 生产模式下，直接使用build生成的dist文件夹里的index.html和js文件
-  const template = fs.readFileSync(path.join(__dirname, '../dist/index.html'), 'utf8')
-  const serverEntry = require('../dist/server-entry.js').default
+  const template = fs.readFileSync(path.join(__dirname, '../dist/server.ejs'), 'utf8')
+  const serverEntry = require('../dist/server-entry.js')
 
   app.use('/public', express.static(path.join(__dirname, '../dist')))
 
-  app.get('*', function (req, res) {
-    res.send(template.replace('<!-- app -->', ReactDOMServer.renderToString(serverEntry)))
+  app.get('*', function (req, res, next) {
+    serverRender(serverEntry, template, req, res).catch(next)
   })
 } else {
   require('./util/dev-static.js')(app)
 }
-
+// express的全局错误处理
+app.use((error, req, res, next) => {
+  console.log(error)
+  res.status(500).send(error)
+})
 app.listen(3333, function () {
   console.log('Example app listening on port 3333!')
 })
